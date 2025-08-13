@@ -1,0 +1,11 @@
+{
+  "name": "stockwell-ordering",
+  "version": "1.0.0",
+  "description": "Ordering system for Stockwell",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
