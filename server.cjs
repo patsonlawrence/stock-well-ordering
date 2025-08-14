@@ -15,10 +15,11 @@ const config = {
   database: process.env.DB_DATABASE,
   port: parseInt(process.env.DB_PORT),
   options: {
-    encrypt: false, // true if using Azure
-    trustServerCertificate: true
-  }
+    encrypt: false,
+    trustServerCertificate: true,
+  },
 };
+
 console.log('Loaded DB config:', config);
 
 // Login endpoint
