@@ -1,11 +1,20 @@
 {
   "name": "stockwell-ordering",
   "version": "1.0.0",
-  "description": "Ordering system for Stockwell",
+  "description": "Mega Supermarket Ordering System",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "next dev"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.11",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0"
+  }
 }

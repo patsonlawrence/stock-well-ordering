@@ -1,62 +1,154 @@
-// pages/login.tsx
-import Head from 'next/head'
+'use client';
+import Head from 'next/head';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
-export default function LoginPage() {
+export default function Login() {
+  const router = useRouter();
+
+  const [input, setInput] = useState({
+    username: '',
+    password: '',
+    remember: false,
+  });
+
+  // Auto-redirect if already logged in
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem('loggedIn');
+    if (isLoggedIn === 'true') {
+      router.push('/dashboard');
+    }
+  }, [router]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value, type, checked } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [id]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const stored = localStorage.getItem('userProfiles');
+    if (!stored) {
+      alert('No user found. Please sign up first.');
+      return;
+    }
+
+    const users = JSON.parse(stored);
+
+    const foundUser = users.find(
+      (user: any) =>
+        (input.username === user.email || input.username === user.phone) &&
+        input.password === user.password
+    );
+
+    if (foundUser) {
+      alert('Login successful!');
+
+      if (input.remember) {
+        localStorage.setItem('loggedIn', 'true');
+        localStorage.setItem('loggedInUser', JSON.stringify(foundUser));
+      }
+
+      router.push('/dashboard');
+    } else {
+      alert('Incorrect email/phone or password.');
+    }
+  };
+
   return (
     <>
       <Head>
-        <title>Login - My App</title>
+        <title>Mega Supermarket Ordering System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-        <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-md">
-          <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">Welcome Back</h2>
-          <form className="space-y-5">
+
+      <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4 relative">
+        <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+          <img
+            src="/logos/stalogo.PNG"
+            alt="Standard Logo"
+            width={100}
+            height={100}
+            className="mb-4 mx-auto block"
+          />
+          <h2 className="text-2xl font-bold text-center mb-6">Aponye Login</h2>
+
+          <form className="space-y-5" onSubmit={handleLogin}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-gray-600"
+              >
+                Email / Phone Number
               </label>
               <input
-                type="email"
-                id="email"
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                type="text"
+                id="username"
+                value={input.username}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="you@example.com or 07xxxxxxxx"
                 required
               />
             </div>
+
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-600"
+              >
                 Password
               </label>
               <input
                 type="password"
                 id="password"
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                value={input.password}
+                onChange={handleChange}
+                className="w-full mt-1 px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your password"
                 required
               />
             </div>
-            <div className="flex items-center justify-between">
-              <label className="flex items-center text-sm">
-                <input type="checkbox" className="mr-2 rounded border-gray-300" />
-                Remember me
-              </label>
-              <a href="#" className="text-sm text-indigo-600 hover:underline">
-                Forgot password?
-              </a>
-            </div>
+
+            <label className="flex items-center text-sm text-gray-600">
+              <input
+                type="checkbox"
+                id="remember"
+                checked={input.remember}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Remember Me
+            </label>
+
             <button
               type="submit"
-              className="w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
             >
-              Sign In
+              Log In
             </button>
           </form>
-          <p className="mt-6 text-center text-sm text-gray-600">
+
+          <p className="text-center text-sm text-gray-600 mt-4">
             Don't have an account?{' '}
-            <a href="/signup" className="text-indigo-600 hover:underline">
+            <a href="/signup" className="text-blue-500 hover:underline">
               Sign up
             </a>
           </p>
         </div>
+
+        {/* Back button fixed at bottom center of viewport */}
+        <button
+          onClick={() => router.push('/')}
+          className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-gray-600 text-white py-3 px-6 rounded-full font-medium w-1/2 z-50 hover:bg-gray-700 transition"
+        >
+          Back
+        </button>
       </div>
     </>
-  )
+  );
 }
