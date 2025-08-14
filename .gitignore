@@ -1,17 +1,6 @@
-node_modules
-# Don't track dependencies
 node_modules/
-
-# Ignore environment files
 .env
-
-# Build output
-out/
-dist/
 .next/
-
-# OS files
+dist/
+out/
 .DS_Store
-
-# Logs
-*.log
