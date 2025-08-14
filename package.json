@@ -7,8 +7,8 @@
     "build": "next build",
     "lint": "next lint",
     "start": "concurrently \"npm run start:api\" \"npm run start:web\"",
-    "start:api": "node server.cjs",
-    "start:web": "next start"
+    "start:api": "node server.cjs"
+    
   },
   "dependencies": {
     "@capacitor/camera": "^7.0.1",
