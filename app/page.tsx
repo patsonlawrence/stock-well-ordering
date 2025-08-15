@@ -33,7 +33,7 @@ export default function LoginPage() {
     <div className="background">
       <div className="login-box">
         <div className="avatar">
-  <img src="/logos/stalogo.png" alt="Logo" className="logo" />
+  <img src="/logos/icon-512x512.png" alt="Logo" className="logo" />
 </div>
         <h2>Sign in</h2>
         <form onSubmit={handleLogin}>
