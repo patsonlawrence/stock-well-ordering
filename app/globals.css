@@ -1,3 +1,153 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Background Gradient */
+.background {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.login-box {
+  width: 100%;
+  max-width: 400px;                  /* Will never exceed this */
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: white;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;            /* Makes padding play nice */
+  margin: 1rem;                      /* Adds spacing on very small screens */
+}
+.avatar span {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+.login-box input {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.login-box input::placeholder {
+  color: #ddd;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.login-box a {
+  color: #fff;
+  text-decoration: underline;
+  font-size: 0.8rem;
+}
+.logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;  /* ← This makes it circular */
+  object-fit: cover;   /* Ensures the image fills the space without stretching */
+  margin-bottom: 1rem;
+}
+@media (max-width: 480px) {
+  .login-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .login-box input,
+  .login-box button {
+    font-size: 1rem;
+  }
+}
+.request-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: white;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  margin: 1rem;
+}
+
+.request-box input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  outline: none;
+  font-size: 1rem;
+}
+
+.request-box input::placeholder {
+  color: #ddd;
+}
+
+.quantity-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.quantity-row input {
+  flex: 1;
+}
+
+.request-box button {
+  margin-top: 1rem;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+.request-box button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #2a5298; /* fallback color */
+}
