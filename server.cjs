@@ -1,10 +1,14 @@
 require('dotenv').config();
+const { Pool } = require('pg');
+const crypto = require('crypto'); // also required!
+require('dotenv').config();
 const express = require('express');
-const sql = require('mssql');
 const cors = require('cors');
-const crypto = require('crypto'); // <-- FIXED
 
 const app = express();
+app.use(cors());
+app.use(express.json());
+
 
 // ✅ Apply CORS with allowed origins
 app.use(cors({
@@ -20,17 +24,17 @@ app.use(cors({
 app.use(express.json());
 
 // ✅ DB config
-const config = {
+const pool = new Pool({
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  server: process.env.DB_SERVER,
+  host: process.env.DB_SERVER,
   database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT),
-  options: {
-    encrypt: false,
-    trustServerCertificate: true,
+  ssl: {
+    rejectUnauthorized: false, // for hosted databases like Render
   },
-};
+});
+
 
 console.log('Loaded DB config:', config);
 
@@ -48,25 +52,23 @@ app.post('/api/login', async (req, res) => {
     .update(password)
     .digest('hex');
 
-  console.log('Hashed input password:', hashedPassword);
-
   try {
-    const pool = await sql.connect(config);
-    const result = await pool.request()
-      .input('username', sql.VarChar, username)
-      .input('password', sql.VarChar, hashedPassword)
-      .query('SELECT * FROM supermarket.tbl_users WHERE UserName = @username AND password = @password');
+    const result = await pool.query(
+      'SELECT * FROM supermarket.tbl_users WHERE username = $1 AND password = $2',
+      [username, hashedPassword]
+    );
 
-    if (result.recordset.length > 0) {
+    if (result.rows.length > 0) {
       res.json({ success: true, message: 'Login successful' });
     } else {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   } catch (err) {
-    console.error(err);
+    console.error('Login error:', err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
+
 
 // ✅ Use dynamic port for Render
 const PORT = process.env.PORT || 5000;
