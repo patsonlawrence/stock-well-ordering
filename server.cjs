@@ -36,7 +36,7 @@ const pool = new Pool({
 });
 
 
-console.log('Loaded DB config:', config);
+//console.log('Loaded DB config:', config);
 
 // ✅ Test route
 app.get("/", (req, res) => {
