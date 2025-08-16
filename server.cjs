@@ -65,14 +65,17 @@ app.post('/api/login', async (req, res) => {
       res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ success: false, message: 'Server error' });
-  }
+  console.error('❌ Login error:', err); // log the full error stack
+  res.status(500).json({ success: false, message: 'Server error' });
+}
 });
 
 
 // ✅ Use dynamic port for Render
-const PORT = process.env.PORT || 5000;
+/*const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://0.0.0.0:${PORT}`);
+});*/
+app.listen(5000, 'localhost', () => {
+  console.log('✅ Server running on http://localhost:5000');
 });
