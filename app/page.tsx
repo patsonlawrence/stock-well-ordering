@@ -18,12 +18,12 @@ export default function LoginPage() {
 
 try {
     const res = await fetch(`${API_URL}/api/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ username, password }),
+});
 
     const data = await res.json();
     console.log('✅ Server response:', data);

@@ -6,7 +6,7 @@ const { Pool } = require('pg');
 const crypto = require('crypto');
 
 const app = express();
-app.use(cors());
+//app.use(cors());
 app.use(express.json());
 
 
@@ -42,6 +42,9 @@ const pool = new Pool({
 // ✅ Test route
 app.get("/", (req, res) => {
   res.send("Backend API is running");
+});
+app.get('/api/login', (req, res) => {
+  res.send('GET is not supported. Use POST.');
 });
 
 // ✅ Login endpoint
