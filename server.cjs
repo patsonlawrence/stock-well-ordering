@@ -1,13 +1,14 @@
-require('dotenv').config();
-const { Pool } = require('pg');
-const crypto = require('crypto'); // also required!
-require('dotenv').config();
+require('dotenv').config(); // Load .env first
+
 const express = require('express');
 const cors = require('cors');
+const { Pool } = require('pg');
+const crypto = require('crypto');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 
 
 // ✅ Apply CORS with allowed origins
