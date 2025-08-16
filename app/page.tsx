@@ -2,19 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
 export default function LoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
-
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
   console.log("🚀 Fetching:", `${API_URL}/api/login`);
-
-
 try {
     const res = await fetch(`${API_URL}/api/login`, {
       method: 'POST',
@@ -58,17 +53,14 @@ try {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-
           <div className="options">
             <label>
               <input type="checkbox" /> Remember me
             </label>
             <a href="#">Forgot password?</a>
           </div>
-
           {/* 🔁 This button now triggers redirect */}
           <button type="submit">Login</button>
-
           <p>
             Don’t have an account? <a href="#">Register now</a>
           </p>

@@ -1,15 +1,18 @@
 require('dotenv').config();
 const { Pool } = require('pg');
-const crypto = require('crypto'); // also required!
+const crypto = require('crypto');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
-
-
-
-// ✅ Apply CORS with allowed origins
+app.options('*', cors({
+  origin: [
+    'http://localhost:3000',
+    'http://192.168.100.20:3000',
+    'https://stock-well-ordering.vercel.app'
+  ],
+  credentials: true
+}));
 app.use(cors({
   origin: [
     'http://localhost:3000',
@@ -18,11 +21,14 @@ app.use(cors({
   ],
   credentials: true
 }));
-
-// ✅ Apply JSON parsing
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://stock-well-ordering.vercel.app');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  next();
+});
 app.use(express.json());
-
-// ✅ DB config
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_SERVER,
@@ -30,33 +36,23 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT),
   ssl: {
-    rejectUnauthorized: false, // for hosted databases like Render
+    rejectUnauthorized: false, 
   },
 });
-
-
-//console.log('Loaded DB config:', config);
-
-// ✅ Test route
 app.get("/", (req, res) => {
   res.send("Backend API is running");
 });
-
-// ✅ Login endpoint
 app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
-
   const hashedPassword = crypto
     .createHash('md5')
     .update(password)
     .digest('hex');
-
   try {
     const result = await pool.query(
       'SELECT * FROM users WHERE username = $1 AND password = $2',
       [username, hashedPassword]
     );
-
     if (result.rows.length > 0) {
       res.json({ success: true, message: 'Login successful' });
     } else {
@@ -67,9 +63,6 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 });
-
-
-// ✅ Use dynamic port for Render
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://0.0.0.0:${PORT}`);
