@@ -6,12 +6,8 @@ const { Pool } = require('pg');
 const crypto = require('crypto');
 
 const app = express();
-//app.use(cors());
-app.use(express.json());
 
-
-
-// ✅ Apply CORS with allowed origins
+// ✅ Apply CORS FIRST
 app.use(cors({
   origin: [
     'http://localhost:3000',
@@ -20,6 +16,9 @@ app.use(cors({
   ],
   credentials: true
 }));
+
+// ✅ Then JSON parser
+app.use(express.json());
 
 // ✅ Apply JSON parsing
 app.use(express.json());
