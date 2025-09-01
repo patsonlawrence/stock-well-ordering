@@ -9,6 +9,8 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  console.log("🔗 API_URL is:", API_URL);
+
   console.log("🚀 Fetching:", `${API_URL}/api/login`);
 try {
     const res = await fetch(`${API_URL}/api/login`, {

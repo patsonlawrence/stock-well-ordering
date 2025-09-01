@@ -5,14 +5,25 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://192.168.100.20:3000',
+  'https://stock-well-ordering.vercel.app'
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://192.168.100.20:3000',
-    'https://stock-well-ordering.vercel.app'
-  ],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
 }));
+
 app.use(express.json());
 const pool = new Pool({
   user: process.env.DB_USER,
