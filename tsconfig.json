@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/procurementDash/page.js", "index.js"  ],
   "exclude": [
     "node_modules"
   ]

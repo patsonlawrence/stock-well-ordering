@@ -6,6 +6,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
   
@@ -27,12 +28,16 @@ try {
     console.log('✅ Server response:', data);
 
     if (!res.ok) {
-      throw new Error(data.message || 'Login failed');
+      setErrorMsg(data.message || 'Login failed');
+        return;
     }
+        router.replace('/procurementDash/');
+    console.log('✅ Login successful, redirecting...');
 
     // Continue with login success flow...
   } catch (error) {
     console.error('❌ Login error:', error);
+    setErrorMsg('Unexpected error occurred');
   }
 };
   return (
@@ -41,7 +46,6 @@ try {
         <div className="avatar">
   <img src="/logos/stalogo.PNG" alt="Logo" className="logo" />
 </div>
-        <h2>Sign in</h2>
         <form onSubmit={handleLogin}>
           <input
             type="text"
@@ -57,6 +61,11 @@ try {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {errorMsg && (
+            <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>
+              {errorMsg}
+            </div>
+          )}
           <div className="options">
             <label>
               <input type="checkbox" /> Remember me
@@ -73,4 +82,4 @@ try {
     </div>
   );
 }
-//NEXT_PUBLIC_API_URL=https://stock-well-ordering.onrender.com
+
